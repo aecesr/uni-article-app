@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "uno-status-bar": "/components/uni/uni-status-bar/uni-status-bar"
+  }
+}
