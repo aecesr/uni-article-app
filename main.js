@@ -3,6 +3,13 @@ import App from './App'
 // #ifndef VUE3
 import Vue from 'vue'
 Vue.config.productionTip = false
+
+import message from './lib/message.js';
+Vue.prototype.$msg=message;
+
+import http from './lib/http.js';
+Vue.prototype.$http=http;
+
 App.mpType = 'app'
 const app = new Vue({
     ...App

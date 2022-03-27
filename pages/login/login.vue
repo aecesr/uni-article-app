@@ -42,9 +42,10 @@
 				</view>
 			</view>
 			<view class="text-center">
-				<text class="iconfont icon-QQ h2 m-2 " @tap="callToast"></text>
-				<text class="iconfont icon-zhifubao h2 m-2" @tap="callToast"></text>
-				<text class="iconfont icon-weixin h2 m-2" @tap="callToast"></text>
+				<image src="../../static/img/weixin.png" class="logo m-2" @tap="appLogin"></image>
+				<image src="../../static/img/QQ.png" class="logo m-2" @tap="callToast"></image>
+				<image src="../../static/img/github.png" class="logo m-2"></image>
+
 			</view>
 
 		</template>
@@ -70,17 +71,17 @@
 					<input type="text" v-model="verifyCode" placeholder="请输入验证码" class="border-bottom p-2 flex-1" />
 
 					<!-- 验证码 -->
-					<button @tap="getCode" :class=" limitTime>0 ? 'bg-pick-disabled':'bg-pick' "
+					<button @tap="getCode()" :class=" limitTime>0 ? 'bg-pick-disabled':'bg-pick' "
 						class="font-md px-3 flex align-center" v-model.number="limitTime"
 						v-if="limitTime>0">{{limitTime}}秒后可发送</button>
-					<button @tap="getCode" :class=" limitTime>0 ? 'bg-pick-disabled':'bg-pick' "
-						class="font-md px-3 flex align-center" v-else>发送验证码</button>
+					<button @tap="getCode()" :class=" limitTime>0 ? 'bg-pick-disabled':'bg-pick' "
+						class="font-md px-3 flex align-center" v-else>获取验证码</button>
 
 				</view>
 
 
 				<view class="p-2">
-					<button @tap="login()" class="rounded-circle  text-white"
+					<button @tap="smsLogin()" class="rounded-circle  text-white"
 						:class="inValue=='' ? 'bg-pick-disabled':'bg-pick'">登录</button>
 				</view>
 				<view class="text-center mt-5 text-primary">
@@ -137,7 +138,9 @@
 			open(path) {
 				uni.switchTab({
 					url: `../${path}/${path}`,
-				})
+					
+				});
+				
 			},
 			validate() {
 				// 手机号正则
@@ -165,12 +168,14 @@
 					method: "POST",
 					data: data
 				}).then((res) => {
-					
-					if (res[1].data.code === 1) {
 
+					if (res[1].data.code === 1) {
 						uni.showToast({
-							title: "登录成功",
-							duration: 1000
+
+							title: "登陆成功",
+
+							duration: 500
+
 						});
 						uni.setStorage({
 							key: 'user',
@@ -190,6 +195,68 @@
 					}
 				});
 			},
+			smsLogin() {
+				let data = {
+					phone: this.phone,
+					code: this.verifyCode,
+				}
+				this.$http.post('/users/login/sms', data, 'json').then((res) => {
+					if (res.code === 1) {
+						this.$msg.toast('登陆成功');
+						uni.setStorageSync('user', res.data)
+						uni.switchTab({
+							url: '../my/my'
+						})
+					} else {
+						this.$msg.toast(res.msg)
+						return false
+					}
+				})
+			},
+			//微信登录
+			appLogin() {
+				this.$msg.toast("微信登录")
+				let self = this;
+				uni.login({
+					provider: 'weixin',
+					success: function(loginRes) {
+						uni.getUserInfo({
+							provider: 'weixin',
+							success: infoRes => {
+								let wxLoginDto = {
+									wxOpenid: infoRes.userInfo.openId,
+									nickname: infoRes.userInfo.nickname,
+									avatar: infoRes.userInfo.avatarUrl,
+									gender: infoRes.userInfo.gender
+								};
+								self.$http.post('/users/login/wx', wxLoginDto, 'json')
+									.then((res) => {
+										if (res.code === 1) {
+											uni.showToast({
+												title: "登陆成功",
+												success() {
+													uni.setStorageSync('user', res
+														.data)
+													uni.switchTab({
+														url: '../my/my'
+													});
+												}
+
+											});
+										} else {
+											uni.showToast({
+												title: "登录失败",
+												duration: 1000
+											});
+											return false;
+										}
+
+									});
+							}
+						});
+					}
+				});
+			},
 			resetinvaule() {
 				this.choice = !this.choice;
 				this.inValue = this.verifyCode = this.password = this.phone = '';
@@ -201,18 +268,25 @@
 					return;
 				}
 				// 验证手机号-没通过
-				if (!this.validate()) {
-					return;
-				}
-				this.limitTime = 3;
-				let timer = setInterval(() => {
-					if (this.limitTime > 1) {
-						this.limitTime--;
+				// if (!this.validate()) {
+				// 	return;
+				// }
+				this.$http.post('/users/sms?phone=' + this.phone).then((res) => {
+					if (res.code === 1) {
+						this.limitTime = 60;
+						let timer = setInterval(() => {
+							if (this.limitTime > 1) {
+								this.limitTime--;
+							} else {
+								this.limitTime = 0;
+								clearInterval(timer);
+							}
+						}, 1000);
 					} else {
-						this.limitTime = 0;
-						clearInterval(timer);
+						this.$msg.toast(res.msg)
 					}
-				}, 1000);
+				})
+
 			}
 		},
 		watch: {

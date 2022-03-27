@@ -1,18 +1,73 @@
 .text-pick {
 	color: #fc5c82;
 }
-.bg-pick{
+
+.bg-pick {
 	background-color: #fc5c82;
 }
-.pb--1{
+
+.pb--1 {
 	padding-bottom: -50rpx;
 }
-.bg-pick-disabled{
+
+.bg-pick-disabled {
 	background-color: #f2b7d5;
 }
-.bg-b{
+
+.bg-b {
 	background-color: #061026;
 }
-.bg-bule{
+
+.bg-bule {
 	background-color: #2661dd;
+}
+
+.text-green {
+	color: green;
+}
+
+.logo {
+	width: 40px;
+	height: 40px;
+}
+
+.sex-icon {
+	width: 20px;
+	height: 20px;
+}
+
+.banner {
+	box-sizing: border-box;
+	position: relative;
+	width: 100%;
+	height: 450rpx;
+	
+	/* z-index: -10; */
+	/* background-color: #007BFF; */
+	
+}
+.banner::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 450rpx;
+	/* background-image: linear-gradient(45deg,red,yellow); */
+	/* background-image: url(../../static/img/banner1.jpg); */
+	background-image: var(--bgurl);
+	background-repeat: no-repeat;
+	background-size: cover;
+	border-radius: 0 0 50% 50%/0 0 100% 100%;
+	transform: scaleX(1.5);
+	z-index: 10;
+/* 	content: '';
+	position: absolute;
+	width: 100%;
+	height: 50vh;
+	top: 0;
+	left: 0;
+	background-color: gray;
+	border-radius: 0 0 50% 50%/0 0 100% 100%;
+	transform: scaleX(1.5); */
 }

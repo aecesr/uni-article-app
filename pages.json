@@ -10,8 +10,18 @@
 					"titleNView": false
 				}
 			}
-
+		
 		},
+		{
+			"path": "pages/news/news",
+			"style": {
+				"navigationStyle":"custom",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle":"white"
+			}
+		
+		},
+		
 
 		{
 			"path": "pages/my/my",
@@ -87,14 +97,7 @@
 				}
 			}
 		},
-		{
-			"path": "pages/news/news",
-			"style": {
-				"navigationBarTitleText": "动态",
-				"enablePullDownRefresh": false
-			}
-
-		},
+		
 		{
 			"path": "pages/settings/settings",
 			"style": {
@@ -108,6 +111,7 @@
 			"style": {
 				"navigationBarTitleText": "",
 				"backgroundColor": "#0B1026",
+				"navigationStyle":"custom",
 				"backgroundColorBottom": "#0B1026",
 				"backgroundColorTop": "#0B1026",
 				"enablePullDownRefresh": true,
@@ -120,11 +124,88 @@
 			"path": "pages/new5/new5",
 			"style": {
 				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
+				"navigationStyle":"custom",
+				"backgroundColor": "#0B1026",
+				"backgroundColorBottom": "#0B1026",
+				"backgroundColorTop": "#0B1026",
+				"enablePullDownRefresh": true,
+				"navigationBarBackgroundColor": "#0B1026"
 			}
 
 		}
-	],
+	    ,{
+            "path" : "pages/userEdit/userEdit",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        },{
+            "path" : "pages/user-feedback/user-feedback",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "意见反馈",
+                "enablePullDownRefresh": false
+            }
+            
+        },
+		{
+		    "path" : "pages/bind-phone/bind-phone",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "绑定手机",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		}
+        ,
+		{
+		    "path" : "pages/userEdit/userEdit",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "修改资料",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},{
+            "path" : "pages/userSfe/userSfe",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "账号安全",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/edit-password/edit-password",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "修改密码",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/about/about",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "社区协议",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        
+        ,{
+            "path" : "pages/bind-phone/bind-phone",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "我的应用",
